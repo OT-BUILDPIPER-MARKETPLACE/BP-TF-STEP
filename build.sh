@@ -4,7 +4,10 @@ source functions.sh
 echo "Manage the tf code available at [$WORKSPACE] and have mounted at [$CODEBASE_DIR]"
 sleep  $SLEEP_DURATION
 
+
 cd  $WORKSPACE/${CODEBASE_DIR}
+logInfoMessage "terraform $INSTRUCTION"
+
 terraform $INSTRUCTION
 
 if [ $? -eq 0 ]
