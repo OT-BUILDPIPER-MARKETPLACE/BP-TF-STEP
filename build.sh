@@ -1,25 +1,38 @@
 #!/bin/bash
-source functions.sh
+source /opt/buildpiper/shell-functions/functions.sh
+source /opt/buildpiper/shell-functions/log-functions.sh
+source /opt/buildpiper/shell-functions/aws-functions.sh
 
-echo "Manage the tf code available at [$WORKSPACE] and have mounted at [$CODEBASE_DIR]"
-sleep  $SLEEP_DURATION
+logInfoMessage "Creating for $MODULE"
+tfCodeLocation="${WORKSPACE}"/"${CODEBASE_DIR}"/"${TF_CODE_LOCATION}"
+logInfoMessage "I'll create/update [$MODULE] available at [$tfCodeLocation]"
+sleep  "$SLEEP_DURATION"
 
+getAssumeRole ${AWS_ASSUME_ROLE_ARN}
 
-cd  $WORKSPACE/${CODEBASE_DIR}
+cd  "${tfCodeLocation}"
+#cp /opt/buildpiper/modules/* .
+
+logInfoMessage "Running below tf command"
 logInfoMessage "terraform $INSTRUCTION"
 
-terraform $INSTRUCTION
+terraform init
 
-if [ $? -eq 0 ]
-then
-    logInfoMessage "Congratulations tf execution succeeded!!!"
-    generateOutput ${ACTIVITY_SUB_TASK_CODE} build true "Congratulations tf execution succeeded"
-elif [ $VALIDATION_FAILURE_ACTION == "FAILURE" ]
-    then
-    logErrorMessage "Please check tf execution failed!!!"
-    generateOutput ${ACTIVITY_SUB_TASK_CODE} false "Please check tf execution failed!!!"
-    exit 1
-    else
-    logWarningMessage "Please check tf execution failed!!!"
-    generateOutput ${ACTIVITY_SUB_TASK_CODE} true "Please check tf execution failed!!!"
-fi
+case "$INSTRUCTION" in
+
+  plan)
+    terraform plan -var-file="terraform.tfvars"
+    ;;
+
+  apply)
+    terraform apply -auto-approve -var-file="terraform.tfvars"
+    ;;
+
+  destroy)
+    terraform destroy -auto-approve -var-file="terraform.tfvars"
+    ;;
+
+  *)
+    logInfoMessage "Not a valid option"
+    ;;
+esac

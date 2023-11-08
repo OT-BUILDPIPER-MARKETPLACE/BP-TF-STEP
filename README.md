@@ -10,6 +10,7 @@ git submodule init
 git submodule update
 docker build -t ot/tf:0.1 .
 ```
+*git submodule update --recursive --remote*
 
 ## Testing
 This section will give you a walkthrough of how you can use this image to do various types of testing
@@ -29,3 +30,4 @@ docker run -it --rm -v $PWD:/src -e WORKSPACE=/src -e CODEBASE_DIR=terraform_cod
 
 ## Reference
 * [Base Docker image](https://hub.docker.com/r/hashicorp/terraform/)
+
