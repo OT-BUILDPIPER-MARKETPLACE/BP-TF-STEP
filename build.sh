@@ -8,7 +8,7 @@ tfCodeLocation="${WORKSPACE}"/"${CODEBASE_DIR}"/"${TF_CODE_LOCATION}"
 logInfoMessage "I'll create/update [$MODULE] available at [$tfCodeLocation]"
 sleep  "$SLEEP_DURATION"
 
-tfvars_file_location="${tf_vars_path:=terraform.tfvars}
+tfvars_file_location="${tf_vars_path:=terraform.tfvars}"
 
 cd  "${tfCodeLocation}"
 #cp /opt/buildpiper/modules/* .
