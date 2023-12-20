@@ -8,7 +8,7 @@ tfCodeLocation="${WORKSPACE}"/"${CODEBASE_DIR}"/"${TF_CODE_LOCATION}"
 logInfoMessage "I'll create/update [$MODULE] available at [$tfCodeLocation]"
 sleep  "$SLEEP_DURATION"
 
-tfvars_file_location="${tf_vars_path:=terraform.tfvars}"
+tfvars_file_location="${TF_VAR_PATH:=terraform.tfvars}"
 
 cd  "${tfCodeLocation}"
 #cp /opt/buildpiper/modules/* .
@@ -21,15 +21,15 @@ terraform init
 case "$INSTRUCTION" in
 
   plan)
-    terraform plan -var-file="$tfvars_file_location"
+    terraform plan -var-file="${tfvars_file_location}"
     ;;
 
   apply)
-    terraform apply -auto-approve -var-file="terraform.tfvars"
+    terraform apply -auto-approve -var-file="${tfvars_file_location}"
     ;;
 
   destroy)
-    terraform destroy -auto-approve -var-file="terraform.tfvars"
+    terraform destroy -auto-approve -var-file="${tfvars_file_location}"
     ;;
 
   *)
