@@ -17,7 +17,7 @@ cd  "${tfCodeLocation}"
 logInfoMessage "Running below tf command"
 logInfoMessage "terraform $INSTRUCTION"
 
-getAzureServicePrinciple $ARM_CLIENT_ID $ARM_CLIENT_SECRET $ARM_TENANT_ID
+getAzureServicePrinciple $ARM_CLIENT_ID $ARM_CLIENT_SECRET $ARM_TENANT_ID $ARM_SUBSCRIPTION_ID
 
 terraform init
 
