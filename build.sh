@@ -1,6 +1,7 @@
 #!/bin/bash
 source /opt/buildpiper/shell-functions/functions.sh
 source /opt/buildpiper/shell-functions/log-functions.sh
+source /opt/buildpiper/shell-functions/str-functions.sh
 source /opt/buildpiper/shell-functions/aws-functions.sh
 source /opt/buildpiper/shell-functions/azure-functions.sh
 
