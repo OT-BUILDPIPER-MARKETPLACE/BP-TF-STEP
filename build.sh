@@ -47,7 +47,33 @@ case "$INSTRUCTION" in
     terraform destroy -auto-approve -var-file="terraform.tfvars"
     ;;
 
+  validate)
+    terraform validate
+    ;;
+
+  state)
+    terraform state list
+    ;;
+
+  refresh)
+    terraform refresh -auto-approve -var-file="terraform.tfvars"
+    ;;
+  
+  output)
+    terraform output
+    ;;
+
+# IMPORT_RESOURCE_ADDRESS=aws_s3_bucket.my_bucket
+# IMPORT_RESOURCE_ID=my-existing-bucket-name
+
+  import)
+    if [ -z "$IMPORT_RESOURCE_ADDRESS" ] || [ -z "$IMPORT_RESOURCE_ID" ]; then
+      logInfoMessage "terraform import requires IMPORT_RESOURCE_ADDRESS and IMPORT_RESOURCE_ID env vars"
+      exit 1
+    fi
+    terraform import -var-file="terraform.tfvars" "$IMPORT_RESOURCE_ADDRESS" "$IMPORT_RESOURCE_ID"
+    ;;
   *)
-    logInfoMessage "Not a valid option use(plan|apply|destroy)"
+    logInfoMessage "Not a valid option use(plan|apply|destroy|refresh|state file|validate)"
     ;;
 esac
